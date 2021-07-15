@@ -19,7 +19,7 @@ const postMovie = (req, res, next) => {
     image,
     trailer,
     thumbnail,
-    movieId,
+    movieID,
     nameRU,
     nameEN,
   } = req.body;
@@ -34,7 +34,7 @@ const postMovie = (req, res, next) => {
       image,
       trailer,
       thumbnail,
-      movieId,
+      movieID,
       nameRU,
       nameEN,
       owner,

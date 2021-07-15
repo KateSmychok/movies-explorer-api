@@ -3,13 +3,18 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-const RateLimiter = require('limiter');
+const rateLimit = require('express-rate-limit');
 const routes = require('./routes/index');
 const { errors } = require('celebrate');
 const errorHandler = require('./middlewares/error-handler');
 const { MONGODB_URL } = require('./config');
 
 const app = express();
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 200
+});
 
 mongoose.connect(MONGODB_URL, {
   useNewUrlParser: true,
@@ -18,10 +23,8 @@ mongoose.connect(MONGODB_URL, {
   useUnifiedTopology: true,
 });
 
-const limiter = new RateLimiter({ tokensPerInterval: 150, interval: 'hour' });
-
-app.use(limiter);
 app.use(helmet());
+app.use(limiter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

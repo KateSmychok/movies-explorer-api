@@ -2,7 +2,7 @@ const router = require('express').Router();
 const userRouter = require('./users');
 const movieRouter = require('./movies');
 const auth = require('../middlewares/auth');
-const { validateEmailAndPassword } = require('./middlewares/validators');
+const { validateEmailAndPassword } = require('../middlewares/validators');
 
 const {
   createUser,

@@ -104,20 +104,9 @@ const validateMovieBody = celebrate({
         'any.required': 'Поле "thumbnail" обязательно должно быть заполнено',
       }),
 
-    owner: Joi.string().required()
-      .custom((value, helpers) => {
-        if (ObjectId.isValid(value)) {
-          return value;
-        }
-        return helpers.message('Невалидный id');
-      })
+    movieID: Joi.number().required()
       .messages({
-        'any.required': 'Поле "owner" обязательно должно быть заполнено',
-      }),
-
-    movieId: Joi.number().required()
-      .messages({
-        'any.required': 'Поле "movieId" обязательно должно быть заполнено',
+        'any.required': 'Поле "movieID" обязательно должно быть заполнено',
       }),
 
     nameRU: Joi.string().required()
