@@ -108,9 +108,19 @@ const login = (req, res, next) => {
     .catch(next);
 };
 
+const logout = (req, res) => {
+  res.clearCookie('jwt', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+  })
+    .send({ message: 'User logged out' });
+};
+
 module.exports = {
   getCurrentUser,
   updateCurrentUser,
   createUser,
   login,
+  logout,
 };
