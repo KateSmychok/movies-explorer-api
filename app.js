@@ -8,7 +8,7 @@ const { errors } = require('celebrate');
 const routes = require('./routes/index');
 const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { MONGODB_URL } = require('./config');
+const { MONGODB_URL, PORT } = require('./config');
 
 const app = express();
 
@@ -37,7 +37,5 @@ app.use(errors());
 
 // Централизованный обработчик ошибок
 app.use(errorHandler);
-
-const { PORT = 3000 } = process.env;
 
 app.listen(PORT);
