@@ -34,7 +34,10 @@ const updateCurrentUser = (req, res, next) => {
     select: { __v: 0 },
   })
     .orFail(new NotFoundError('Пользователь с указанным id не найден'))
-    .then((user) => res.send(user))
+    .then((user) => res.send({
+      name: user.name,
+      email: user.email,
+    }))
     .catch((err) => {
       if (err.message === 'NotValidId' || err.name === 'CastError') {
         next(new NotFoundError('Пользователь с указанным id не найден'));
