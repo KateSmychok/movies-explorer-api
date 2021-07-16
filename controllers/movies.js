@@ -26,18 +26,18 @@ const postMovie = (req, res, next) => {
   const owner = req.user._id;
 
   Movie.create({
-      country,
-      director,
-      duration,
-      year,
-      description,
-      image,
-      trailer,
-      thumbnail,
-      movieID,
-      nameRU,
-      nameEN,
-      owner,
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailer,
+    thumbnail,
+    movieID,
+    nameRU,
+    nameEN,
+    owner,
   })
     .then((movie) => res.send(movie))
     .catch((err) => {
@@ -74,5 +74,5 @@ const deleteMovie = (req, res, next) => {
 module.exports = {
   getMovies,
   postMovie,
-  deleteMovie
+  deleteMovie,
 };

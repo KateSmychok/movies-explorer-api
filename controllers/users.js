@@ -1,16 +1,18 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const { NODE_ENV, JWT_SECRET } = process.env;
-const { JWT_SECRET_DEV } = require('../config');
 
 const NotFoundError = require('../errors/not-found-err');
 const BadRequestError = require('../errors/bad-request-err');
 const ConflictingRequestError = require('../errors/conflicting-request-err');
 const UnauthorizedError = require('../errors/unauthorized-err');
 
+const { JWT_SECRET_DEV } = require('../config');
+
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 const getCurrentUser = (req, res, next) => {
-  User.findById(req.user._id, { __v: 0 })
+  User.findById(req.user._id, { __v: 0, _id: 0 })
     .orFail(new NotFoundError('Пользователь с указанным id не найден'))
     .then((user) => res.send(user))
     .catch((err) => {
