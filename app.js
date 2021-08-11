@@ -7,6 +7,7 @@ const rateLimit = require('express-rate-limit');
 const { errors } = require('celebrate');
 const routes = require('./routes/index');
 const errorHandler = require('./middlewares/error-handler');
+const cors = require('cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { MONGODB_URL, PORT } = require('./config');
 
@@ -25,14 +26,7 @@ mongoose.connect(MONGODB_URL, {
 });
 
 app.use(requestLogger);
-
-app.all('/', function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
-  next();
-});
-
+app.use(cors());
 app.use(helmet());
 app.use(limiter);
 app.use(bodyParser.json());
