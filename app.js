@@ -7,7 +7,7 @@ const rateLimit = require('express-rate-limit');
 const { errors } = require('celebrate');
 const routes = require('./routes/index');
 const errorHandler = require('./middlewares/error-handler');
-const cors = require('cors');
+const { passCors } = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { MONGODB_URL, PORT } = require('./config');
 
@@ -25,8 +25,8 @@ mongoose.connect(MONGODB_URL, {
   useUnifiedTopology: true,
 });
 
+app.use(passCors);
 app.use(requestLogger);
-app.use(cors());
 app.use(helmet());
 app.use(limiter);
 app.use(bodyParser.json());
