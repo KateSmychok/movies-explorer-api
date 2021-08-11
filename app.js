@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { errors } = require('celebrate');
@@ -17,6 +18,13 @@ const limiter = rateLimit({
   max: 1000,
 });
 
+const corsOptions = {
+  origin: ['http://localhost:3000'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Methods', 'Access-Control-Request-Headers'],
+  credentials: true,
+  enablePreflight: true,
+};
+
 mongoose.connect(MONGODB_URL, {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -24,11 +32,13 @@ mongoose.connect(MONGODB_URL, {
   useUnifiedTopology: true,
 });
 
+app.use(requestLogger);
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 app.use(helmet());
 app.use(limiter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(requestLogger);
 app.use(routes);
 app.use(errorLogger);
 
