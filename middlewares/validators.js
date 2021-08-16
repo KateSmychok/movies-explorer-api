@@ -65,7 +65,7 @@ const validateMovieBody = celebrate({
         'any.required': 'Поле "image" обязательно должно быть заполнено',
       }),
 
-    trailer: Joi.string().required()
+    trailerLink: Joi.string().required()
       .custom((value, helpers) => {
         if (validator.isURL(value)) {
           return value;
@@ -73,7 +73,7 @@ const validateMovieBody = celebrate({
         return helpers.message('Невалидный URL');
       })
       .messages({
-        'any.required': 'Поле "trailer" обязательно должно быть заполнено',
+        'any.required': 'Поле "trailerLink" обязательно должно быть заполнено',
       }),
     thumbnail: Joi.string()
       .custom((value, helpers) => {
