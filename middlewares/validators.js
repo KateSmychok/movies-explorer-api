@@ -46,31 +46,14 @@ const validateUserBody = celebrate({
 
 const validateMovieBody = celebrate({
   body: Joi.object().keys({
-    country: Joi.string().required()
+    nameRU: Joi.string().required()
       .messages({
-        'any.required': 'Поле "country" обязательно должно быть заполнено',
+        'any.required': 'Поле "nameRU" обязательно должно быть заполнено',
       }),
-
-    director: Joi.string().required()
-      .messages({
-        'any.required': 'Поле "director" обязательно должно быть заполнено',
-      }),
-
     duration: Joi.number().required()
       .messages({
         'any.required': 'Поле "duration" обязательно должно быть заполнено',
       }),
-
-    year: Joi.string().required()
-      .messages({
-        'any.required': 'Поле "year" обязательно должно быть заполнено',
-      }),
-
-    description: Joi.string().required()
-      .messages({
-        'any.required': 'Поле "description" обязательно должно быть заполнено',
-      }),
-
     image: Joi.string().required()
       .custom((value, helpers) => {
         if (validator.isURL(value)) {
@@ -92,32 +75,19 @@ const validateMovieBody = celebrate({
       .messages({
         'any.required': 'Поле "trailer" обязательно должно быть заполнено',
       }),
-
-    thumbnail: Joi.string().required()
+    thumbnail: Joi.string()
       .custom((value, helpers) => {
         if (validator.isURL(value)) {
           return value;
         }
         return helpers.message('Невалидный URL');
-      })
-      .messages({
-        'any.required': 'Поле "thumbnail" обязательно должно быть заполнено',
       }),
-
-    movieID: Joi.number().required()
-      .messages({
-        'any.required': 'Поле "movieID" обязательно должно быть заполнено',
-      }),
-
-    nameRU: Joi.string().required()
-      .messages({
-        'any.required': 'Поле "nameRU" обязательно должно быть заполнено',
-      }),
-
-    nameEN: Joi.string().required()
-      .messages({
-        'any.required': 'Поле "nameEN" обязательно должно быть заполнено',
-      }),
+    nameEN: Joi.string(),
+    country: Joi.string(),
+    director: Joi.string(),
+    year: Joi.string(),
+    description: Joi.string(),
+    movieID: Joi.number(),
   }).unknown(true),
 });
 
