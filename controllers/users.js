@@ -14,7 +14,11 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id, { __v: 0, _id: 0 })
     .orFail(new NotFoundError('Пользователь с указанным id не найден'))
-    .then((user) => res.send(user))
+    .then((user) => res.send({
+        name: user.name,
+        email: user.email,
+        _id: user._id,
+      }))
     .catch((err) => {
       if (err.message === 'NotValidId' || err.name === 'CastError') {
         next(new NotFoundError('Пользователь с указанным id не найден'));
@@ -37,6 +41,7 @@ const updateCurrentUser = (req, res, next) => {
     .then((user) => res.send({
       name: user.name,
       email: user.email,
+      _id: user._id,
     }))
     .catch((err) => {
       if (err.message === 'NotValidId' || err.name === 'CastError') {
@@ -55,10 +60,6 @@ const createUser = (req, res, next) => {
     email,
     password,
   } = req.body;
-
-  if (!name || !email || !password) {
-    throw new BadRequestError('Отсутствует имя, электронная почта или пароль');
-  }
 
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
